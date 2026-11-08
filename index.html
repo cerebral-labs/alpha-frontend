@@ -1896,7 +1896,6 @@
                                     <li>Supported iPhone / iOS device; app available through the App Store with a U.S. Apple ID.</li>
                                     <li>18+ and in the United States during participation.</li>
                                     <li>Final eligibility terms for the free month of Ping Pro will be confirmed before kickoff.</li>
-                                    <li>This webpage preview does not accept applications or transmit data.</li>
                                 </ul>
                             </div>
                         </div>
@@ -1904,22 +1903,21 @@
                 </div>
 
                 <aside>
-                    <form class="apply-card" id="apply-form" onsubmit="return handlePreviewApply(event)">
+                    <form class="apply-card" id="apply-form" method="post">
                         <div class="apply-card-stamp-corner">
-                            APPLY<small>BETA '26</small>
+                            APPLY<small>ALPHA '26</small>
                         </div>
                         <div class="apply-eyebrow">By invitation</div>
                         <h2 class="apply-title">Apply for a seat</h2>
                         <p class="apply-sub">Tell us what you want to track and why you are a fit. All fields are required.</p>
-                        <div class="preview-notice">Preview only — applications are not submitted.</div>
 
                         <div class="form-group" id="fg-name">
                             <label for="f-name">Name</label>
-                            <input type="text" id="f-name" name="name" placeholder="Alex" autocomplete="off"  required />
+                            <input type="text" id="f-name" name="name" placeholder="Alex" autocomplete="name" maxlength="120" required />
                         </div>
 
-                        <div class="form-group"><label for="f-email">Email</label><input type="email" id="f-email" name="email" autocomplete="email" required /></div>
-                        <div class="form-group"><label for="f-phone">Phone number</label><input type="tel" id="f-phone" name="phone" autocomplete="tel" required /></div>
+                        <div class="form-group"><label for="f-email">Email</label><input type="email" id="f-email" name="email" autocomplete="email" maxlength="254" required /></div>
+                        <div class="form-group"><label for="f-phone">Phone number</label><input type="tel" id="f-phone" name="phone" autocomplete="tel" maxlength="40" required /></div>
                         <div class="form-group" id="fg-region">
                             <label for="f-region">Region</label>
                             <select id="f-region" name="region" required><option value="">Select…</option><option value="us">United States</option></select>
@@ -1928,7 +1926,7 @@
 
 <fieldset class="form-group interest-options"><legend>Topics you want to track</legend><p class="hint">Select at least one topic.</p><label><input type="checkbox" name="interests" value="Hyped stocks" id="interest-0"> <span>Hyped stocks</span></label><label><input type="checkbox" name="interests" value="Finance" id="interest-1"> <span>Finance</span></label><label><input type="checkbox" name="interests" value="Sports betting" id="interest-2"> <span>Sports betting</span></label><label><input type="checkbox" name="interests" value="Trading" id="interest-3"> <span>Trading</span></label><label><input type="checkbox" name="interests" value="Fashion" id="interest-4"> <span>Fashion</span></label><label><input type="checkbox" name="interests" value="Deals" id="interest-5"> <span>Deals</span></label><label><input type="checkbox" name="interests" value="Other" id="interest-6"> <span>Other</span></label><div id="other-interest-wrap" hidden><label for="other-interest">Other topic</label><input type="text" id="other-interest" disabled autocomplete="off" placeholder="Your interest"></div></fieldset>                        <div class="form-group" id="fg-goals">
                             <label for="f-goals">What do you want to test with Ping?</label>
-                            <textarea id="f-goals" name="goals" placeholder="Daily tracking habit, idea generation, action follow-through…" required></textarea>
+                            <textarea id="f-goals" name="goals" placeholder="Daily tracking habit, idea generation, action follow-through…" maxlength="2000" required></textarea>
                         </div>
 
                         <div class="form-group" id="fg-inviter">
@@ -1952,21 +1950,25 @@
                             </select>
                             <div id="other-inviter-wrap" hidden>
                                 <label for="other-inviter">Inviter’s name</label>
-                                <input type="text" id="other-inviter" name="other_inviter" pattern=".*\S.*" placeholder="Enter their name" disabled />
+                                <input type="text" id="other-inviter" name="other_inviter" pattern=".*\S.*" placeholder="Enter their name" maxlength="120" disabled />
                             </div>
                         </div>
 
-                        <button type="submit" id="submit-btn" class="submit-btn">Preview — no submission</button>
-                        <p class="apply-footer-note" id="apply-preview-msg" aria-live="polite"></p>
+                        <button type="submit" id="submit-btn" class="submit-btn" disabled>Submit application</button>
+                        <p class="apply-footer-note" id="apply-message" aria-live="polite"></p>
                     </form>
 
-                    <div class="status-lookup-card">
+                    <form class="status-lookup-card" id="status-form" method="post">
                         <div class="apply-eyebrow">Application status</div>
-                        <h2 class="apply-title">Not connected</h2>
-                        <p class="apply-sub">Live status lookup is disabled in this preview. No emails are checked and no accounts are queried.</p>
-                        <button type="button" class="secondary-btn" disabled>Status lookup unavailable</button>
-                        <p class="status-lookup-message">Preview build · no backend</p>
-                    </div>
+                        <h2 class="apply-title">Check your status</h2>
+                        <p class="apply-sub">Enter the email address you used to apply.</p>
+                        <div class="form-group">
+                            <label for="status-email">Email</label>
+                            <input type="email" id="status-email" name="email" autocomplete="email" maxlength="254" required />
+                        </div>
+                        <button type="submit" class="secondary-btn" disabled>Check status</button>
+                        <p class="status-lookup-message error" id="status-message" aria-live="polite"></p>
+                    </form>
 
                     <a class="leaderboard-link-card" href="#/leaderboard">
                         <div class="apply-eyebrow">Standings</div>
@@ -1979,23 +1981,17 @@
 
         <section id="view-status" class="view">
             <div class="status-wrap">
-                <div class="status-stamp" id="status-stamp">
-                    Preview<small>NO SUBMIT</small>
-                </div>
-                <h1 class="status-title" id="status-title">This preview <em>does not accept applications.</em></h1>
-                <p class="status-sub" id="status-sub">Nothing was submitted. When the hosted event page is live, approved applicants will see confirmation here.</p>
+                <div class="status-stamp">ALPHA<small>’26</small></div>
+                <h1 class="status-title" id="status-title">Application status</h1>
+                <p class="status-sub" id="status-sub"></p>
                 <div class="status-card" id="status-card-content">
                     <div class="status-card-row">
                         <span class="k">Event</span>
                         <span class="v">Alpha Community</span>
                     </div>
                     <div class="status-card-row">
-                        <span class="k">Mode</span>
-                        <span class="v">Website preview</span>
-                    </div>
-                    <div class="status-card-row">
                         <span class="k">Status</span>
-                        <span class="v pending">No data transmitted</span>
+                        <span class="v" id="application-status"></span>
                     </div>
                 </div>
                 <p class="status-cta">Questions? Email <a href="mailto:hello@pingai.us">hello@pingai.us</a>.</p>
@@ -2077,7 +2073,14 @@
     </footer>
 
     <script>
-        /* Preview build: hash router only. No fetch, no API_BASE, no tokens. */
+        const applicationsApi = 'https://api.helloping.ai/api/v1/alpha/applications';
+        const applicationStatuses = {
+            pending: ['Pending review', 'We have your application. Check back here for a decision.'],
+            approved: ['Approved', 'Your application to the Alpha Community was approved.'],
+            denied: ['Denied', 'Your application to the Alpha Community was declined.']
+        };
+        let currentStatus = null;
+
         function navigate(path) {
             window.location.hash = '#' + path;
         }
@@ -2097,6 +2100,13 @@
             } else if (path.startsWith('/event/')) {
                 showView('view-event');
             } else if (path.startsWith('/status')) {
+                const status = currentStatus === null ? null : applicationStatuses[currentStatus];
+                document.getElementById('status-title').textContent = status?.[0] ?? 'Application status';
+                document.getElementById('status-sub').textContent = status?.[1] ?? 'Return to the event page and enter your email to check your status.';
+                const label = document.getElementById('application-status');
+                label.textContent = status?.[0] ?? '';
+                label.className = currentStatus === 'pending' ? 'v pending' : 'v';
+                document.getElementById('status-card-content').hidden = status === null;
                 showView('view-status');
             } else if (path === '/leaderboard') {
                 showView('view-leaderboard');
@@ -2123,14 +2133,52 @@
             nameField.disabled = !isOther;
         }
 
-        function handlePreviewApply(e) {
-            e.preventDefault();
+        async function requestApplicationStatus(form, message, path, body) {
+            const button = form.querySelector('button[type="submit"]');
+            if (button.disabled) return;
+            button.disabled = true;
+            message.textContent = '';
+            try {
+                const response = await fetch(applicationsApi + path, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                    signal: AbortSignal.timeout(15000)
+                });
+                const result = await response.json();
+                if (!response.ok || result.code !== 0 || !Object.hasOwn(applicationStatuses, result.data?.status)) {
+                    message.textContent = result.message || 'Couldn’t reach the application service. Please try again.';
+                    return;
+                }
+                currentStatus = result.data.status;
+                document.getElementById('status-email').value = body.email;
+                navigate('/status');
+            } catch {
+                message.textContent = 'Couldn’t reach the application service. Please try again.';
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
             validateInterests();
             syncOtherInviter();
-            const form = document.getElementById('apply-form');
-            if (!form.reportValidity()) return false;
-            document.getElementById('apply-preview-msg').textContent = 'Preview only — applications are not submitted.';
-            return false;
+            const form = event.currentTarget;
+            if (!form.reportValidity()) return;
+            const data = new FormData(form);
+            const interests = data.getAll('interests');
+            requestApplicationStatus(form, document.getElementById('apply-message'), '', {
+                name: data.get('name'),
+                email: data.get('email'),
+                phone: data.get('phone'),
+                region: data.get('region'),
+                interests,
+                ...(interests.includes('Other') ? { otherInterest: document.getElementById('other-interest').value } : {}),
+                goals: data.get('goals'),
+                inviter: data.get('inviter'),
+                ...(data.has('other_inviter') ? { otherInviter: data.get('other_inviter') } : {})
+            });
         }
 
         window.addEventListener('hashchange', route);
@@ -2140,6 +2188,17 @@
             validateInterests();
             document.getElementById('f-inviter').addEventListener('change', syncOtherInviter);
             syncOtherInviter();
+            document.getElementById('other-interest').maxLength = 120;
+            document.getElementById('apply-form').addEventListener('submit', submitApplication);
+            document.getElementById('submit-btn').disabled = false;
+            const statusForm = document.getElementById('status-form');
+            statusForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                requestApplicationStatus(statusForm, document.getElementById('status-message'), '/status', {
+                    email: document.getElementById('status-email').value
+                });
+            });
+            statusForm.querySelector('button[type="submit"]').disabled = false;
         });
     </script>
 </body>
